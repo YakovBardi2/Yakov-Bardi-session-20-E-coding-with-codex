@@ -73,14 +73,7 @@ CREATE TABLE CostumeStore.dbo.CostumeSales
         END
     ) PERSISTED,
     TotalCustomerPaid AS (Quantity * SoldPricePerCostume) PERSISTED,
-    Profit AS ((Quantity * SoldPricePerCostume) - (Quantity *
-        CASE Size
-            WHEN 'XS' THEN 15.00
-            WHEN 'S'  THEN 17.00
-            WHEN 'M'  THEN 20.00
-            WHEN 'L'  THEN 22.00
-            WHEN 'XL' THEN 25.00
-        END)) PERSISTED,
+    Profit AS (TotalCustomerPaid - (Quantity * CostPricePerCostume)) PERSISTED,
     CONSTRAINT CHK_CostumeSales_SoldPrice_at_least_cost_price CHECK (SoldPricePerCostume >= CostPricePerCostume)
 );
 GO
