@@ -33,15 +33,6 @@ CREATE TABLE CostumeStore.dbo.CostumeSales
     Quantity            SMALLINT NOT NULL,
     CONSTRAINT CHK_CostumeSales_Quantity_greater_than_zero CHECK (Quantity > 0),
     SoldPricePerCostume DECIMAL(5,2) NOT NULL,
-    CONSTRAINT DF_CostumeSales_SoldPricePerCostume_default_regular_price DEFAULT (
-        CASE Size
-            WHEN 'XS' THEN 20.00
-            WHEN 'S'  THEN 22.00
-            WHEN 'M'  THEN 25.00
-            WHEN 'L'  THEN 27.00
-            WHEN 'XL' THEN 30.00
-        END
-    ) FOR SoldPricePerCostume,
     CONSTRAINT CHK_CostumeSales_SoldPricePerCostume_non_negative CHECK (SoldPricePerCostume >= 0),
     DateBought          DATE NOT NULL,
     DateSold            DATE NOT NULL,
@@ -85,6 +76,46 @@ CREATE TABLE CostumeStore.dbo.CostumeSales
             WHEN 'XL' THEN 25.00
         END)
 );
+GO
+
+CREATE TRIGGER CostumeStore.dbo.trg_CostumeSales_DefaultSoldPrice
+ON CostumeStore.dbo.CostumeSales
+INSTEAD OF INSERT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    INSERT INTO CostumeStore.dbo.CostumeSales
+    (
+        CustomerFirstName,
+        CustomerLastName,
+        CostumeName,
+        Size,
+        Quantity,
+        SoldPricePerCostume,
+        DateBought,
+        DateSold
+    )
+    SELECT
+        CustomerFirstName,
+        CustomerLastName,
+        CostumeName,
+        Size,
+        Quantity,
+        COALESCE(
+            SoldPricePerCostume,
+            CASE Size
+                WHEN 'XS' THEN 20.00
+                WHEN 'S'  THEN 22.00
+                WHEN 'M'  THEN 25.00
+                WHEN 'L'  THEN 27.00
+                WHEN 'XL' THEN 30.00
+            END
+        ) AS SoldPricePerCostume,
+        DateBought,
+        DateSold
+    FROM inserted;
+END;
 GO
 
 INSERT INTO CostumeStore.dbo.CostumeSales (CustomerFirstName, CustomerLastName, CostumeName, Size, Quantity, SoldPricePerCostume, DateBought, DateSold)
