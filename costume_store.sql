@@ -28,9 +28,12 @@ CREATE TABLE CostumeStore.dbo.CostumeSales
     CustomerFirstName   VARCHAR(20) NOT NULL,
     CustomerLastName    VARCHAR(20) NOT NULL,
     CostumeName         VARCHAR(25) NOT NULL,
-    Size                CHAR(2) NOT NULL CHECK (Size IN ('XS','S','M','L','XL')),
-    Quantity            SMALLINT NOT NULL CHECK (Quantity > 0),
-    SoldPricePerCostume DECIMAL(5,2) NOT NULL CHECK (SoldPricePerCostume >= 0),
+    Size                CHAR(2) NOT NULL,
+    CONSTRAINT CHK_CostumeSales_Size_valid_values CHECK (Size IN ('XS','S','M','L','XL')),
+    Quantity            SMALLINT NOT NULL,
+    CONSTRAINT CHK_CostumeSales_Quantity_greater_than_zero CHECK (Quantity > 0),
+    SoldPricePerCostume DECIMAL(5,2) NOT NULL,
+    CONSTRAINT CHK_CostumeSales_SoldPricePerCostume_non_negative CHECK (SoldPricePerCostume >= 0),
     DateBought          DATE NOT NULL,
     DateSold            DATE NOT NULL,
     -- Derived values based on the required fixed price list
@@ -64,7 +67,7 @@ CREATE TABLE CostumeStore.dbo.CostumeSales
             WHEN 'L'  THEN 22.00
             WHEN 'XL' THEN 25.00
         END)) PERSISTED,
-    CONSTRAINT CK_SoldPriceAtLeastCost CHECK (SoldPricePerCostume >=
+    CONSTRAINT CHK_CostumeSales_SoldPricePerCostume_at_least_cost_price CHECK (SoldPricePerCostume >=
         CASE Size
             WHEN 'XS' THEN 15.00
             WHEN 'S'  THEN 17.00
