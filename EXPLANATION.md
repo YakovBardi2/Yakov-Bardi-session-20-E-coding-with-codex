@@ -1,0 +1,3 @@
+# Explanation: `IF OBJECT_ID(N'CostumeStore.dbo.CostumeSales', N'U')`
+
+The T-SQL snippet `IF OBJECT_ID(N'CostumeStore.dbo.CostumeSales', N'U')` checks whether a user-defined table named `CostumeStore.dbo.CostumeSales` exists in the `CostumeStore` database. It uses the `OBJECT_ID` metadata function, which returns the internal object identifier for the named object when it is present and matches the optional type filter—in this case, `N'U'`, which corresponds to user tables. If the object does not exist or is of a different type, `OBJECT_ID` returns `NULL`. Wrapping the expression in an `IF` block allows the script to conditionally run statements such as `DROP TABLE` only when the table is already present, preventing errors during repeated runs of the setup script.
