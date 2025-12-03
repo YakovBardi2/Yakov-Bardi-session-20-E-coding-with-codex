@@ -85,7 +85,13 @@ CREATE TABLE CostumeStore.dbo.CostumeSales
             WHEN 'M'  THEN 25.00
             WHEN 'L'  THEN 27.00
             WHEN 'XL' THEN 30.00
-        END) - Discount)) - (Quantity * CostPricePerCostume)) PERSISTED,
+        END) - Discount)) - (Quantity * (CASE Size
+            WHEN 'XS' THEN 15.00
+            WHEN 'S'  THEN 17.00
+            WHEN 'M'  THEN 20.00
+            WHEN 'L'  THEN 22.00
+            WHEN 'XL' THEN 25.00
+        END))) PERSISTED,
     CONSTRAINT CHK_CostumeSales_SoldPrice_at_least_cost_price CHECK (SoldPricePerCostume >= CostPricePerCostume)
 );
 GO
