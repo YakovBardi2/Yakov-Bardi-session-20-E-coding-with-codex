@@ -3,6 +3,10 @@
 USE CostumeStore;
 GO
 
+-- Clear existing rows to avoid duplicating sample data on re-run
+DELETE FROM CostumeStore.dbo.CostumeSales;
+GO
+
 INSERT INTO CostumeStore.dbo.CostumeSales (CustomerFirstName, CustomerLastName, CostumeName, Size, Quantity, Discount, DateBought, DateSold)
 VALUES
 ('Chana','Goldberg','Artist','XS',2,0.00,'2020-02-14','2020-04-02'),
