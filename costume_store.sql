@@ -46,7 +46,7 @@ CREATE TABLE CostumeStore.dbo.CostumeSales
             WHEN 'XL' THEN 25.00
         END
     ) PERSISTED,
-    SoldPricePerCostume AS (
+    StandardPricePerCostume AS (
         CASE Size
             WHEN 'XS' THEN 20.00
             WHEN 'S'  THEN 22.00
@@ -58,27 +58,22 @@ CREATE TABLE CostumeStore.dbo.CostumeSales
     Discount            DECIMAL(5,2) NOT NULL,
     CONSTRAINT DF_CostumeSales_Discount_default_zero DEFAULT 0.00,
     CONSTRAINT CHK_CostumeSales_Discount_non_negative CHECK (Discount >= 0),
-    CONSTRAINT CHK_CostumeSales_Discount_not_exceed_profit_margin CHECK (Discount <= (SoldPricePerCostume - CostPricePerCostume)),
+    CONSTRAINT CHK_CostumeSales_Discount_not_exceed_profit_margin CHECK (Discount <= (StandardPricePerCostume - CostPricePerCostume)),
+    SoldPricePerCostume AS (StandardPricePerCostume - Discount) PERSISTED,
     DateBought          DATE NOT NULL,
     CONSTRAINT CHK_CostumeSales_DateBought_on_or_after_store_open CHECK (DateBought >= '2020-01-01'),
     DateSold            DATE NOT NULL,
     CONSTRAINT CHK_CostumeSales_DateSold_not_before_purchase CHECK (DateSold >= DateBought),
     CONSTRAINT CHK_CostumeSales_DateSold_not_in_future CHECK (DateSold <= CAST(GETDATE() AS DATE)),
-    NetSoldPrice AS (SoldPricePerCostume - Discount) PERSISTED,
+    NetSoldPrice AS (SoldPricePerCostume) PERSISTED,
     PaidFullPrice AS (
         CASE
-            WHEN Discount = 0 AND SoldPricePerCostume = CASE Size
-                WHEN 'XS' THEN 20.00
-                WHEN 'S'  THEN 22.00
-                WHEN 'M'  THEN 25.00
-                WHEN 'L'  THEN 27.00
-                WHEN 'XL' THEN 30.00
-            END
+            WHEN Discount = 0 AND SoldPricePerCostume = StandardPricePerCostume
             THEN 1 ELSE 0
         END
     ) PERSISTED,
-    TotalCustomerPaid AS (Quantity * (SoldPricePerCostume - Discount)) PERSISTED,
-    Profit AS ((Quantity * (SoldPricePerCostume - Discount)) - (Quantity *
+    TotalCustomerPaid AS (Quantity * SoldPricePerCostume) PERSISTED,
+    Profit AS ((Quantity * SoldPricePerCostume) - (Quantity *
         CASE Size
             WHEN 'XS' THEN 15.00
             WHEN 'S'  THEN 17.00
@@ -86,14 +81,7 @@ CREATE TABLE CostumeStore.dbo.CostumeSales
             WHEN 'L'  THEN 22.00
             WHEN 'XL' THEN 25.00
         END)) PERSISTED,
-    CONSTRAINT CHK_CostumeSales_NetSoldPrice_at_least_cost_price CHECK ((SoldPricePerCostume - Discount) >=
-        CASE Size
-            WHEN 'XS' THEN 15.00
-            WHEN 'S'  THEN 17.00
-            WHEN 'M'  THEN 20.00
-            WHEN 'L'  THEN 22.00
-            WHEN 'XL' THEN 25.00
-        END)
+    CONSTRAINT CHK_CostumeSales_SoldPrice_at_least_cost_price CHECK (SoldPricePerCostume >= CostPricePerCostume)
 );
 GO
 
