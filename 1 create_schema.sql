@@ -53,7 +53,15 @@ CREATE TABLE CostumeStore.dbo.CostumeSales
         CONSTRAINT DF_CostumeSales_Discount_default_zero DEFAULT 0.00,
     CONSTRAINT CHK_CostumeSales_Discount_non_negative CHECK (Discount >= 0),
     -- Net price actually paid per costume after discount
-    SoldPricePerCostume AS (StandardPricePerCostume - Discount) PERSISTED,
+    SoldPricePerCostume AS (
+        (CASE Size
+            WHEN 'XS' THEN 20.00
+            WHEN 'S'  THEN 22.00
+            WHEN 'M'  THEN 25.00
+            WHEN 'L'  THEN 27.00
+            WHEN 'XL' THEN 30.00
+        END) - Discount
+    ) PERSISTED,
     DateBought          DATE NOT NULL,
     CONSTRAINT CHK_CostumeSales_DateBought_on_or_after_store_open CHECK (DateBought >= '2020-01-01'),
     DateSold            DATE NOT NULL,
