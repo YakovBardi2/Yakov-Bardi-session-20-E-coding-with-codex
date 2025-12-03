@@ -16,13 +16,13 @@ USE CostumeStore;
 GO
 
 -- Reset for repeatable runs
-IF OBJECT_ID(N'dbo.CostumeSales', N'U') IS NOT NULL
+IF OBJECT_ID(N'CostumeStore.dbo.CostumeSales', N'U') IS NOT NULL
 BEGIN
-    DROP TABLE dbo.CostumeSales;
+    DROP TABLE CostumeStore.dbo.CostumeSales;
 END;
 GO
 
-CREATE TABLE dbo.CostumeSales
+CREATE TABLE CostumeStore.dbo.CostumeSales
 (
     SaleId              INT IDENTITY(1,1) PRIMARY KEY,
     CustomerFirstName   VARCHAR(50) NOT NULL,
@@ -75,7 +75,7 @@ CREATE TABLE dbo.CostumeSales
 );
 GO
 
-INSERT INTO dbo.CostumeSales (CustomerFirstName, CustomerLastName, CostumeName, Size, Quantity, SoldPricePerCostume, DateBought, DateSold)
+INSERT INTO CostumeStore.dbo.CostumeSales (CustomerFirstName, CustomerLastName, CostumeName, Size, Quantity, SoldPricePerCostume, DateBought, DateSold)
 VALUES
 ('Chana','Goldberg','Artist','XS',2,20.00,'2020-02-14','2020-04-02'),
 ('Aliza','Duetch','Fire Man','L',1,22.00,'2021-03-09','2022-01-04'),
@@ -99,7 +99,7 @@ Report 1: Most popular costume
 SELECT TOP (1) WITH TIES
     CostumeName,
     SUM(Quantity) AS TotalUnitsSold
-FROM dbo.CostumeSales
+FROM CostumeStore.dbo.CostumeSales
 GROUP BY CostumeName
 ORDER BY TotalUnitsSold DESC;
 GO
@@ -110,7 +110,7 @@ Report 2: Most popular size
 SELECT TOP (1) WITH TIES
     Size,
     SUM(Quantity) AS TotalUnitsSold
-FROM dbo.CostumeSales
+FROM CostumeStore.dbo.CostumeSales
 GROUP BY Size
 ORDER BY TotalUnitsSold DESC;
 GO
@@ -121,7 +121,7 @@ Report 3: Customers with purchases and what they paid
 SELECT
     CONCAT(CustomerFirstName, ' ', CustomerLastName, ': ', Quantity, ' - ', CostumeName, ' ($', FORMAT(SoldPricePerCostume, 'N2'), ')') AS CustomerPurchase,
     TotalCustomerPaid
-FROM dbo.CostumeSales
+FROM CostumeStore.dbo.CostumeSales
 ORDER BY CustomerLastName, CustomerFirstName, DateSold;
 GO
 
@@ -137,6 +137,6 @@ SELECT
     SoldPricePerCostume,
     CostPricePerCostume,
     Profit
-FROM dbo.CostumeSales
+FROM CostumeStore.dbo.CostumeSales
 ORDER BY SaleId;
 GO
