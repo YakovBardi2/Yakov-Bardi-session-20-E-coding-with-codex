@@ -67,8 +67,7 @@ CREATE TABLE CostumeStore.dbo.CostumeSales
     CONSTRAINT CHK_CostumeSales_DateSold_not_in_future CHECK (DateSold <= CAST(GETDATE() AS DATE)),
     PaidFullPrice AS (
         CASE
-            WHEN Discount = 0 AND SoldPricePerCostume = StandardPricePerCostume
-            THEN 1 ELSE 0
+            WHEN Discount = 0 THEN 1 ELSE 0
         END
     ) PERSISTED,
     TotalCustomerPaid AS (Quantity * SoldPricePerCostume) PERSISTED,
