@@ -3,7 +3,7 @@
 ## impliment this business scenario, create the table, insert sample data, write code the present the queries
 ## must be created in 1 single table 
 ## musr be created using T SQL
-/*Hi, I have a small home-run business selling costumes. Until now I've only been selling to family and friends, but I recently decided to open my business 
+Hi, I have a small home-run business selling costumes. Until now I've only been selling to family and friends, but I recently decided to open my business 
 to the public starting January 1, 2020.
 I am now going to need a database to keep track all the costumes that are sold.
 I want the name of the customer, which costumes they bought, which size, how much I paid per costume, how much they paid per costume, 
@@ -63,4 +63,3 @@ Bracha Ganz, Princess, M, 4, 25, Nov 3, 2020, Dec 12, 2021
 Yaakov Cohen, Princess, XS, 1, 20, Dec 4, 2021, July 25, 2022
 Rina Rosen, Artist, M, 1, 25, Feb 18, 2022, May 28, 2022
 Rivkah Goldberger, zebra, S, 1, 22, Sep 14, 2022, Dec 29, 2022 
-*/
