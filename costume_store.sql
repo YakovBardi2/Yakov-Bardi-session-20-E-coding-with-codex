@@ -65,7 +65,6 @@ CREATE TABLE CostumeStore.dbo.CostumeSales
     DateSold            DATE NOT NULL,
     CONSTRAINT CHK_CostumeSales_DateSold_not_before_purchase CHECK (DateSold >= DateBought),
     CONSTRAINT CHK_CostumeSales_DateSold_not_in_future CHECK (DateSold <= CAST(GETDATE() AS DATE)),
-    NetSoldPrice AS (SoldPricePerCostume) PERSISTED,
     PaidFullPrice AS (
         CASE
             WHEN Discount = 0 AND SoldPricePerCostume = StandardPricePerCostume
@@ -129,7 +128,18 @@ GO
 Report 3: Customers with purchases and what they paid
 */
 SELECT
-    CONCAT(CustomerFirstName, ' ', CustomerLastName, ': ', Quantity, ' - ', CostumeName, ' ($', FORMAT(NetSoldPrice, 'N2'), ')') AS CustomerPurchase,
+    CONCAT(
+        CustomerFirstName,
+        ' ',
+        CustomerLastName,
+        ': ',
+        Quantity,
+        ' - ',
+        CostumeName,
+        ' ($',
+        FORMAT(SoldPricePerCostume, 'N2'),
+        ')'
+    ) AS CustomerPurchase,
     TotalCustomerPaid
 FROM CostumeStore.dbo.CostumeSales
 ORDER BY CustomerLastName, CustomerFirstName, DateSold;
@@ -146,7 +156,6 @@ SELECT
     Quantity,
     SoldPricePerCostume,
     Discount,
-    NetSoldPrice,
     CostPricePerCostume,
     Profit
 FROM CostumeStore.dbo.CostumeSales
