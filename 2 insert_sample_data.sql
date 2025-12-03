@@ -3,8 +3,7 @@
 USE CostumeStore;
 GO
 
--- Clear existing rows to avoid duplicating sample data on re-run
-DELETE FROM CostumeStore.dbo.CostumeSales;
+TRUNCATE TABLE CostumeStore.dbo.CostumeSales;
 GO
 
 INSERT INTO CostumeStore.dbo.CostumeSales (CustomerFirstName, CustomerLastName, CostumeName, Size, Quantity, Discount, DateBought, DateSold)
