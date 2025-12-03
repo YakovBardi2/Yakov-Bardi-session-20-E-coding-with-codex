@@ -49,8 +49,8 @@ CREATE TABLE CostumeStore.dbo.CostumeSales
             WHEN 'XL' THEN 30.00
         END
     ) PERSISTED,
-    Discount            DECIMAL(5,2) NOT NULL,
-    CONSTRAINT DF_CostumeSales_Discount_default_zero DEFAULT 0.00,
+    Discount            DECIMAL(5,2) NOT NULL
+        CONSTRAINT DF_CostumeSales_Discount_default_zero DEFAULT 0.00,
     CONSTRAINT CHK_CostumeSales_Discount_non_negative CHECK (Discount >= 0),
     -- Net price actually paid per costume after discount
     SoldPricePerCostume AS (StandardPricePerCostume - Discount) PERSISTED,
