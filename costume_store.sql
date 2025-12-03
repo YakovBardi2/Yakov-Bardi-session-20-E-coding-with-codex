@@ -24,13 +24,13 @@ GO
 
 CREATE TABLE CostumeStore.dbo.CostumeSales
 (
-    SaleId              INT IDENTITY(1,1) PRIMARY KEY,
-    CustomerFirstName   VARCHAR(50) NOT NULL,
-    CustomerLastName    VARCHAR(50) NOT NULL,
-    CostumeName         VARCHAR(50) NOT NULL,
+    SaleId              SMALLINT IDENTITY(1,1) PRIMARY KEY,
+    CustomerFirstName   VARCHAR(20) NOT NULL,
+    CustomerLastName    VARCHAR(20) NOT NULL,
+    CostumeName         VARCHAR(25) NOT NULL,
     Size                CHAR(2) NOT NULL CHECK (Size IN ('XS','S','M','L','XL')),
-    Quantity            INT NOT NULL CHECK (Quantity > 0),
-    SoldPricePerCostume DECIMAL(6,2) NOT NULL CHECK (SoldPricePerCostume >= 0),
+    Quantity            TINYINT NOT NULL CHECK (Quantity > 0),
+    SoldPricePerCostume DECIMAL(5,2) NOT NULL CHECK (SoldPricePerCostume >= 0),
     DateBought          DATE NOT NULL,
     DateSold            DATE NOT NULL,
     -- Derived values based on the required fixed price list
