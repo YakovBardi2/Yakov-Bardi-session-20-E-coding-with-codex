@@ -1,4 +1,6 @@
-# Costume store scenario 
+# Costume store scenario
+# instructions 
+## impliment this business scenario, create the table, insert sample data, write code the present the queries
 ## must be created in 1 single table 
 ## musr be created using T SQL
 /*Hi, I have a small home-run business selling costumes. Until now I've only been selling to family and friends, but I recently decided to open my business 
