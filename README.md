@@ -1,4 +1,6 @@
-# Yakov-Bardi-session-20-E-coding-with-codex
+# Costume store scenario 
+## must be created in 1 single table 
+## musr be created using T SQL
 /*Hi, I have a small home-run business selling costumes. Until now I've only been selling to family and friends, but I recently decided to open my business 
 to the public starting January 1, 2020.
 I am now going to need a database to keep track all the costumes that are sold.
