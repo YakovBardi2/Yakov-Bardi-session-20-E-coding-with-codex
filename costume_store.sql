@@ -33,6 +33,15 @@ CREATE TABLE CostumeStore.dbo.CostumeSales
     Quantity            SMALLINT NOT NULL,
     CONSTRAINT CHK_CostumeSales_Quantity_greater_than_zero CHECK (Quantity > 0),
     SoldPricePerCostume DECIMAL(5,2) NOT NULL,
+    CONSTRAINT DF_CostumeSales_SoldPricePerCostume_default_regular_price DEFAULT (
+        CASE Size
+            WHEN 'XS' THEN 20.00
+            WHEN 'S'  THEN 22.00
+            WHEN 'M'  THEN 25.00
+            WHEN 'L'  THEN 27.00
+            WHEN 'XL' THEN 30.00
+        END
+    ) FOR SoldPricePerCostume,
     CONSTRAINT CHK_CostumeSales_SoldPricePerCostume_non_negative CHECK (SoldPricePerCostume >= 0),
     DateBought          DATE NOT NULL,
     DateSold            DATE NOT NULL,
