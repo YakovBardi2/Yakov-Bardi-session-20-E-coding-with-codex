@@ -56,9 +56,10 @@ CREATE TABLE CostumeStore.dbo.CostumeSales
         END
     ) PERSISTED,
     Discount            DECIMAL(5,2) NOT NULL,
-    CONSTRAINT DF_CostumeSales_Discount_default_zero DEFAULT 0.00,
+    CONSTRAINT DF_CostumeSales_Discount_default_zero DEFAULT 0.00 FOR Discount,
     CONSTRAINT CHK_CostumeSales_Discount_non_negative CHECK (Discount >= 0),
     CONSTRAINT CHK_CostumeSales_Discount_not_exceed_profit_margin CHECK (Discount <= (StandardPricePerCostume - CostPricePerCostume)),
+    -- Net price actually paid per costume after discount
     SoldPricePerCostume AS (StandardPricePerCostume - Discount) PERSISTED,
     DateBought          DATE NOT NULL,
     CONSTRAINT CHK_CostumeSales_DateBought_on_or_after_store_open CHECK (DateBought >= '2020-01-01'),
