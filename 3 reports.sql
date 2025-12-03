@@ -38,7 +38,7 @@ SELECT
         ' - ',
         CostumeName,
         ' ($',
-        FORMAT(SoldPricePerCostume, 'N2'),
+        FORMAT(TotalCustomerPaid, 'N2'),
         ')'
     ) AS CustomerPurchase
 FROM CostumeStore.dbo.CostumeSales
