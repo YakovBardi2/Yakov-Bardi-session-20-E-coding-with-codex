@@ -24,7 +24,7 @@ GO
 
 CREATE TABLE CostumeStore.dbo.CostumeSales
 (
-    SaleId              SMALLINT IDENTITY(1,1) PRIMARY KEY,
+    SaleId              INT IDENTITY(1,1) PRIMARY KEY,
     CustomerFirstName   VARCHAR(20) NOT NULL,
     CONSTRAINT CHK_CostumeSales_CustomerFirstName_not_blank CHECK (LTRIM(RTRIM(CustomerFirstName)) <> ''),
     CustomerLastName    VARCHAR(20) NOT NULL,
