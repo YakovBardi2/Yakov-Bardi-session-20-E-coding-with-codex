@@ -7,10 +7,10 @@ GO
 Report 1: Most popular costume
 */
 SELECT TOP (1) WITH TIES
-    CostumeName,
-    SUM(Quantity) AS TotalUnitsSold
-FROM CostumeStore.dbo.CostumeSales
-GROUP BY CostumeName
+    C.CostumeName,
+    SUM(C.Quantity) AS TotalUnitsSold
+FROM CostumeStore.dbo.CostumeSales AS C
+GROUP BY C.CostumeName
 ORDER BY TotalUnitsSold DESC;
 GO
 
@@ -18,10 +18,10 @@ GO
 Report 2: Most popular size
 */
 SELECT TOP (1) WITH TIES
-    Size,
-    SUM(Quantity) AS TotalUnitsSold
-FROM CostumeStore.dbo.CostumeSales
-GROUP BY Size
+    C.Size,
+    SUM(C.Quantity) AS TotalUnitsSold
+FROM CostumeStore.dbo.CostumeSales AS C
+GROUP BY C.Size
 ORDER BY TotalUnitsSold DESC;
 GO
 
@@ -30,34 +30,34 @@ Report 3: Customers with purchases and what they paid
 */
 SELECT
     CONCAT(
-        CustomerFirstName,
+        C.CustomerFirstName,
         ' ',
-        CustomerLastName,
+        C.CustomerLastName,
         ': ',
-        Quantity,
+        C.Quantity,
         ' - ',
-        CostumeName,
+        C.CostumeName,
         ' ($',
-        FORMAT(TotalCustomerPaid, 'N2'),
+        FORMAT(C.TotalCustomerPaid, 'N2'),
         ')'
     ) AS CustomerPurchase
-FROM CostumeStore.dbo.CostumeSales
-ORDER BY CustomerLastName, CustomerFirstName, DateSold;
+FROM CostumeStore.dbo.CostumeSales AS C
+ORDER BY C.CustomerLastName, C.CustomerFirstName, C.DateSold;
 GO
 
 /*
 Report 4: Profit per sale
 */
 SELECT
-    SaleId,
-    CONCAT(CustomerFirstName, ' ', CustomerLastName) AS CustomerName,
-    CostumeName,
-    Size,
-    Quantity,
-    SoldPricePerCostume,
-    Discount,
-    CostPricePerCostume,
-    Profit
-FROM CostumeStore.dbo.CostumeSales
-ORDER BY SaleId;
+    C.SaleId,
+    CONCAT(C.CustomerFirstName, ' ', C.CustomerLastName) AS CustomerName,
+    C.CostumeName,
+    C.Size,
+    C.Quantity,
+    C.SoldPricePerCostume,
+    C.Discount,
+    C.CostPricePerCostume,
+    C.Profit
+FROM CostumeStore.dbo.CostumeSales AS C
+ORDER BY C.SaleId;
 GO

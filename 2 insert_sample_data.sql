@@ -3,7 +3,8 @@
 USE CostumeStore;
 GO
 
-TRUNCATE TABLE CostumeStore.dbo.CostumeSales;
+DELETE C
+FROM CostumeStore.dbo.CostumeSales AS C;
 GO
 
 INSERT INTO CostumeStore.dbo.CostumeSales (CustomerFirstName, CustomerLastName, CostumeName, Size, Quantity, Discount, DateBought, DateSold)
