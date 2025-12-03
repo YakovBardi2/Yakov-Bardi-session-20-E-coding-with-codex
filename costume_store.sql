@@ -32,8 +32,7 @@ CREATE TABLE CostumeStore.dbo.CostumeSales
     CostumeName         VARCHAR(25) NOT NULL,
     CONSTRAINT CHK_CostumeSales_CostumeName_not_blank CHECK (LTRIM(RTRIM(CostumeName)) <> ''),
     Size                CHAR(2) NOT NULL,
-    CONSTRAINT CHK_CostumeSales_Size_not_blank CHECK (LTRIM(RTRIM(Size)) <> ''),
-    CONSTRAINT CHK_CostumeSales_Size_valid_values CHECK (Size IN ('XS','S','M','L','XL')),
+    CONSTRAINT CHK_CostumeSales_Size_valid_values CHECK (LTRIM(RTRIM(Size)) IN ('XS','S','M','L','XL')),
     Quantity            SMALLINT NOT NULL,
     CONSTRAINT CHK_CostumeSales_Quantity_greater_than_zero CHECK (Quantity > 0),
     -- Derived values based on the required fixed price list
